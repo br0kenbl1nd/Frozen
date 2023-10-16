@@ -22,6 +22,11 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(move.normalized * speed * Time.deltaTime);
 
+        if(transform.position.y > 0f)
+        {
+            transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        }
+
     } //update
 
 }
