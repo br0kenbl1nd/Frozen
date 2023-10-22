@@ -70,7 +70,8 @@ public class EnemyPatrol : MonoBehaviour
         GameObject[] _players = GameObject.FindGameObjectsWithTag(playerTag);
         foreach(GameObject _player in _players)
         {
-            if(_player.CompareTag(playerTag))
+            float distanceToPlayer = Vector3.Distance(transform.position, _player.transform.position);
+            if(distanceToPlayer <= searchPlayerRange)
             {
                 isPlayerInRange = true;
             }
@@ -82,18 +83,37 @@ public class EnemyPatrol : MonoBehaviour
 
     } //check for players in range
 
-    List<Transform> ChoosePointsToBuild(float buildRadius)
+    List<Vector3> ChoosePointsToBuild(float buildRadius)
     {
-        List<Transform> _pointsToBuild = new List<Transform>();
+        List<Vector3> _pointsToBuild = new List<Vector3>();
 
-        int _noOfPoints = (int)(buildRadius * 2) + 1;
+        float _noOfPoints = (buildRadius * 2) + 1;
         for(int i = 0; i < _noOfPoints; i++)
         {
-
+            if (i / buildRadius <= 1)
+            {
+                float _xPos = (fortPosition.position.x - buildRadius) + i;
+                float _zPos = (fortPosition.position.z) - i;
+                _pointsToBuild.Add(new Vector3(_xPos, 0f, _zPos));
+                Debug.Log(_xPos + "," + _zPos);
+            }
+            else
+            {
+                float _xPos = (fortPosition.position.x - buildRadius) + i;
+                float _zPos = (fortPosition.position.z - ((buildRadius + 1) - i));
+                _pointsToBuild.Add(new Vector3(_xPos, 0f, _zPos));
+                Debug.Log(_xPos + "," + _zPos);
+            }
         }
 
 
         return _pointsToBuild;
     } //choose points to build
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, searchPlayerRange);
+    } // on draw gizmo selected
 
 } //class
