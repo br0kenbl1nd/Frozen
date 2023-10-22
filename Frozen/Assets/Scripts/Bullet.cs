@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+
+    [SerializeField]
+    private float damage;
+
     [SerializeField]
     private float bulletSpeed;
 
@@ -9,6 +13,12 @@ public class Bullet : MonoBehaviour
     private float range;
     float travelTime;
     float travelTimeCount;
+
+    public string obstacleTag = "Obstacle";
+
+    public string enemyTag = "Enemy";
+
+    public string fortTag = "Fort";
 
     private void Awake()
     {
@@ -27,14 +37,49 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.gameObject.name);
-    }
-
     private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name + "trigger");
+    {       
+
+        if(other.gameObject.CompareTag(obstacleTag))
+        {
+            Debug.Log("We hit an obstacle!");
+            //destroy the obstacle and give rewards
+            Health _obstacleHealth = other.gameObject.GetComponent<Health>();
+            if(_obstacleHealth != null)
+            {
+                _obstacleHealth.TakeDamage(damage);
+            }
+            
+
+            Destroy(gameObject);
+        }
+
+        if(other.gameObject.CompareTag(enemyTag))
+        {
+            Debug.Log("We hit an enemy!");
+            //destroy the enemy and give rewards
+            Health _enemyHealth = other.gameObject.GetComponent<Health>();
+            if (_enemyHealth != null)
+            {
+                _enemyHealth.TakeDamage(damage);
+            }
+
+            Destroy(gameObject);
+        }
+
+        if (other.gameObject.CompareTag(fortTag))
+        {
+            Debug.Log("We hit the fort!");
+            //destroy the enemy and give rewards
+            Health _fortHealth = other.gameObject.GetComponent<Health>();
+            if (_fortHealth != null)
+            {
+                _fortHealth.TakeDamage(damage);
+            }
+
+            Destroy(gameObject);
+        }
+
     }
 
 } //class

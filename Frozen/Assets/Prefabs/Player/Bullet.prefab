@@ -111,8 +111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d80f3ef8f2184e24b98766c188086d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 50
   bulletSpeed: 20
   range: 100
+  obstacleTag: Obstacle
+  enemyTag: Enemy
+  fortTag: Fort
 --- !u!54 &5362150434502226571
 Rigidbody:
   m_ObjectHideFlags: 0
