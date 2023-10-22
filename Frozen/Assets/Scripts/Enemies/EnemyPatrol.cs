@@ -112,6 +112,7 @@ public class EnemyPatrol : MonoBehaviour
                 float _xPos = (fortPosition.position.x - buildRadius) + i;
                 float _zPos = (fortPosition.position.z - ((buildRadius + 1) - i));
                 _pointsToBuild.Add(new Vector3(_xPos, 0f, _zPos));
+                Debug.Log(new Vector3(_xPos, 0f, _zPos));
             }
         }
 

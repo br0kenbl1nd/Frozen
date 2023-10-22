@@ -210,6 +210,7 @@ MonoBehaviour:
   searchPlayerRange: 3.72
   playerTag: Player
   initialBuildRadius: 5
+  enemyObstacleTag: EnemyObstacle
 --- !u!1 &7375981347876916968
 GameObject:
   m_ObjectHideFlags: 0
