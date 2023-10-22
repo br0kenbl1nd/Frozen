@@ -21,6 +21,10 @@ public class EnemyPatrol : MonoBehaviour
     private float initialBuildRadius;
     private float currentBuildRadius;
 
+    [Header("Enemy Obstacle tag")]
+    [SerializeField]
+    private string enemyObstacleTag;
+
     //fort position
     private Transform fortPosition;
 
@@ -52,8 +56,15 @@ public class EnemyPatrol : MonoBehaviour
             if(isPatrolRound == false)
             {
                 //choose points to build
-                ChoosePointsToBuild(currentBuildRadius);
+                List<Vector3> _pointsToBuild = ChoosePointsToBuild(currentBuildRadius);
                 //check if there are buildings existing in the points
+                foreach(Vector3 _pointToBuild in _pointsToBuild)
+                {
+                    if(CheckIfBuildingInSpot(_pointToBuild))
+                    {
+                        _pointsToBuild.Remove(_pointToBuild);
+                    }
+                }
                 //select first point
                 //move to the first point
                 //build in the first point
@@ -95,20 +106,41 @@ public class EnemyPatrol : MonoBehaviour
                 float _xPos = (fortPosition.position.x - buildRadius) + i;
                 float _zPos = (fortPosition.position.z) - i;
                 _pointsToBuild.Add(new Vector3(_xPos, 0f, _zPos));
-                Debug.Log(_xPos + "," + _zPos);
             }
             else
             {
                 float _xPos = (fortPosition.position.x - buildRadius) + i;
                 float _zPos = (fortPosition.position.z - ((buildRadius + 1) - i));
                 _pointsToBuild.Add(new Vector3(_xPos, 0f, _zPos));
-                Debug.Log(_xPos + "," + _zPos);
             }
         }
 
 
         return _pointsToBuild;
     } //choose points to build
+
+    bool CheckIfBuildingInSpot(Vector3 _position)
+    {
+        GameObject[] _obs = GameObject.FindGameObjectsWithTag(enemyObstacleTag);
+        int n = 0;
+        foreach(GameObject _ob in _obs)
+        {
+            if(_ob.transform.position == _position)
+            {
+                n += 1;
+            }
+        }
+
+        if(n == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    } //check if building in spot
 
     private void OnDrawGizmosSelected()
     {
