@@ -58,13 +58,8 @@ public class EnemyPatrol : MonoBehaviour
                 //choose points to build
                 List<Vector3> _pointsToBuild = ChoosePointsToBuild(currentBuildRadius);
                 //check if there are buildings existing in the points
-                foreach(Vector3 _pointToBuild in _pointsToBuild)
-                {
-                    if(CheckIfBuildingInSpot(_pointToBuild))
-                    {
-                        _pointsToBuild.Remove(_pointToBuild);
-                    }
-                }
+                
+                Debug.Log(_pointsToBuild.Count);
                 //select first point
                 //move to the first point
                 //build in the first point
@@ -110,7 +105,7 @@ public class EnemyPatrol : MonoBehaviour
             else
             {
                 float _xPos = (fortPosition.position.x - buildRadius) + i;
-                float _zPos = (fortPosition.position.z - ((buildRadius + 1) - i));
+                float _zPos = ((fortPosition.position.z - buildRadius) + (i % buildRadius));
                 _pointsToBuild.Add(new Vector3(_xPos, 0f, _zPos));
                 Debug.Log(new Vector3(_xPos, 0f, _zPos));
             }
